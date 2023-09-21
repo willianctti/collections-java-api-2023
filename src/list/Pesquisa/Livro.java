@@ -1,7 +1,7 @@
 package list.Pesquisa;
 
 public class Livro {
-    //atributos
+    //Atributos
     private String titulo;
     private String autor;
     private int anoPublicacao;
@@ -14,10 +14,6 @@ public class Livro {
 
     public String getTitulo() {
         return titulo;
-    }
-
-    public void setAutor(String autor) {
-        this.autor = autor;
     }
 
     public String getAutor() {
@@ -37,3 +33,4 @@ public class Livro {
                 '}';
     }
 }
+
