@@ -1,0 +1,358 @@
+Collections, interface, List e Set Interface
+
+A interface Set é uma coleção que não pode conter elementos duplicados.
+Essa interface representa o conceito matemático de um conjunto e é usada para representar conjuntos, como um baralho de cartas.
+A plataforma Java possui três implementações de Set de uso geral: HashSet, TreeSet e LinkedHashSet.
+A interface Set não permite acesso aleatório a um elemento na coleção.
+Para percorrer os elementos de um Set, você pode usar um iterador ou um loop foreach.
+
+
+
+
+
+
+
+
+										SET
+ex:
+
+Crie uma classe chamada "ConjuntoConvidados" que possui um conjunto de objetos do tipo "Convidado" como atributo. 
+Cada convidado possui atributos como nome e código do convite. Implemente os seguintes métodos:
+
+adicionarConvidado(String nome, int codigoConvite): Adiciona um convidado ao conjunto.
+removerConvidadoPorCodigoConvite(int codigoConvite): Remove um convidado do conjunto com base no código do convite.
+contarConvidados(): Conta o número total de convidados no Set.
+exibirConvidados(): Exibe todos os convidados do conjunto.
+
+
+		primeiro criamos a classe que ficará de ex no nosso set dentro do diamond:
+package set.OperacoesBasicas;
+
+public class Convidado {
+    //Atributos
+    private String nome;
+    private int codigoConvite;
+
+    public Convidado(String nome, int codigoConvite) {
+        this.nome = nome;
+        this.codigoConvite = codigoConvite;
+    }
+    public String getNome() {
+        return nome;
+    }
+
+    public int getCodigoConvite() {
+        return codigoConvite;
+    }
+    public String toString() {
+        return "Convidado{" +
+                "nome='" + nome + '\'' +
+                ", codigoConvite=" + codigoConvite +
+                '}';
+    }
+}
+
+
+
+
+		e criamos a classe do exercicio para usa-lo:
+package set.OperacoesBasicas;
+import java.util.HashSet;
+import java.util.Set;
+
+public class ConjuntoConvidados {
+    //Atributos
+    private Set<Convidado> convidadoSet;
+
+    public ConjuntoConvidados() {
+        this.convidadoSet = new HashSet<>();
+    }
+}
+
+
+		fazemos nosso metodo para adicionar um novo:
+
+public void adicionarConvidado(String nome, int codigoConvite) {
+        convidadoSet.add(new Convidado(nome, codigoConvite));
+    }
+
+
+
+
+		nosso metodo para remover um Convidado:
+
+ public void removerConvidadoPorCodigoConvite(int codigoConvite) {
+        Convidado convidadoParaRemover = null;
+        for(Convidado c : convidadoSet) {
+            if(c.getCodigoConvite() == codigoConvite) {
+                convidadoParaRemover = c;
+                break;
+            }
+        }
+        convidadoSet.remove(convidadoParaRemover);
+    }
+
+
+
+		contarConvidados
+
+public int contarConvidados() {
+        return convidadoSet.size();
+    }
+
+
+
+		exibirConvidados
+
+public void exibirConvidados() {
+        System.out.println(convidadoSet);
+    }
+
+
+		agora para testar nossos métodos:
+
+ public static void main(String[] args) {
+        ConjuntoConvidados conjuntoConvidados = new ConjuntoConvidados();
+
+        System.out.println("Existem " + conjuntoConvidados.contarConvidados() + " dentro do Set de convidados");
+
+        conjuntoConvidados.adicionarConvidado("Convidado 1", 1234);
+        conjuntoConvidados.adicionarConvidado("Convidado 4", 1237);
+
+        System.out.println("Existem " + conjuntoConvidados.contarConvidados() + " dentro do Set de convidados");
+
+        conjuntoConvidados.removerConvidadoPorCodigoConvite(1234);
+        System.out.println("Existem " + conjuntoConvidados.contarConvidados() + " dentro do Set de convidados");
+
+        conjuntoConvidados.exibirConvidados();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ex:
+
+				Pesquisa em Set
+1. Agenda de Contatos
+Crie uma classe chamada "AgendaContatos" que possui um conjunto de objetos do tipo "Contato" como atributo. 
+Cada contato possui atributos como nome e número de telefone. Implemente os seguintes métodos:
+
+adicionarContato(String nome, int numero): Adiciona um contato à agenda.
+exibirContatos(): Exibe todos os contatos da agenda.
+pesquisarPorNome(String nome): Pesquisa contatos pelo nome e retorna uma conjunto com os contatos encontrados.
+atualizarNumeroContato(String nome, int novoNumero): Atualiza o número de telefone de um contato específico.
+
+
+
+	primeiro criamos a classe que ficará de ex no nosso set dentro do diamond:
+
+
+package set.Pesquisa;
+
+import java.util.Objects;
+
+public class Contato {
+    //atributos
+
+    private String nome;
+    private int numero;
+
+    public Contato(String nome, int numero) {
+        this.nome = nome;
+        this.numero = numero;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Contato contato)) return false;
+        return Objects.equals(getNome(), contato.getNome());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getNome());
+    }
+
+    public String toString() {
+        return "Contato{" +
+                "nome='" + nome + '\'' +
+                ", numero=" + numero +
+                '}';
+    }
+}
+
+
+
+
+
+
+
+
+
+
+ public void adicionarContato(String nome, int numero) {
+        contatoSet.add(new Contato(nome, numero));
+    }
+
+    public void exibirContatos() {
+        System.out.println(contatoSet);
+    }
+
+    public Set<Contato> pesquisarPorNome(String nome) {
+        Set<Contato> contatosPorNome = new HashSet<>();
+        for(Contato c : contatoSet) {
+            if(c.getNome().startsWith(nome)) {
+                contatosPorNome.add(c);
+            }
+        }
+        return contatosPorNome;
+    }
+
+
+    public Contato atualizarNumeroContato(String nome, int novoNumero) {
+        Contato contatoAtualizado = null;
+        for(Contato c : contatoSet) {
+            if(c.getNome().equalsIgnoreCase(nome)) {
+                c.setNumero(novoNumero);
+                contatoAtualizado = c;
+                break;
+            }
+        }
+
+        return contatoAtualizado;
+    }
+
+
+
+
+		Testando:
+
+ public static void main(String[] args) {
+        AgendaContatos agendaContatos = new AgendaContatos();
+        agendaContatos.exibirContatos();
+        agendaContatos.adicionarContato("Willian", 1234);
+        agendaContatos.adicionarContato("Willian", 0);
+        agendaContatos.adicionarContato("Willian Nicoletti", 1235);
+        agendaContatos.adicionarContato("Willian bonitao", 1237);
+        agendaContatos.adicionarContato("Willian Silva", 1234);
+
+        agendaContatos.exibirContatos();
+
+        System.out.println(agendaContatos.pesquisarPorNome("Willian"));
+
+        System.out.println("Contato atualizado: " + agendaContatos.atualizarNumeroContato("Willian Silva", 5555555));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		Ordenação em Set
+1. Cadastro de Produtos
+Crie uma classe chamada "CadastroProdutos" que possui um conjunto de objetos do tipo "Produto" como atributo. Cada produto possui atributos como nome, cod, preço e quantidade. Implemente os seguintes métodos:
+
+adicionarProduto(long cod, String nome, double preco, int quantidade): Adiciona um produto ao cadastro.
+exibirProdutosPorNome(): Exibe todos os produtos do cadastro em ordem alfabética pelo nome.
+
+exibirProdutosPorPreco(): Exibe todos os produtos do cadastro em ordem crescente de preço.
+
+
+
+public class CadastroProdutos {
+    //Atributos
+    private Set<Produto> produtoSet;
+
+    public CadastroProdutos() {
+        this.produtoSet = new HashSet<>();
+    }
+
+    public void adicionarProduto(int cod, String nome, double preco, int quantidade) {
+        produtoSet.add(new Produto(nome, cod, preco, quantidade));
+    }
+
+    public Set<Produto> exibirProdutosPorNome() {
+        Set<Produto> produtosPorNome = new TreeSet<>(produtoSet);
+        return produtosPorNome;
+    }
+
+    public Set<Produto> exibirProdutosPorPreco() {
+        Set<Produto> produtosPorPreco = new TreeSet<>(new ComparatorPorPreco());
+        produtoSet.addAll(produtoSet);
+        return produtosPorPreco;
+    }
+
+
+usamos comparable e comparator
+(comparator usa double e compareto)
+
+
+
+class ComparatorPorPreco implements Comparator<Produto> {
+    public int compare(Produto p1, Produto p2) {
+        return Double.compare(p1.getPreco(), p2.getPreco());
+    }
+
+
+
+
+testando: 
+
+public static void main(String[] args) {
+        CadastroProdutos cadastroProdutos = new CadastroProdutos();
+        cadastroProdutos.adicionarProduto(1010, "Pera", 1.60, 5);
+        cadastroProdutos.adicionarProduto(1020, "Banana", 0.50, 10);
+        cadastroProdutos.adicionarProduto(1030, "Manga", 1.90, 2);
+        cadastroProdutos.adicionarProduto(1040, "Maca", 1.10, 20);
+
+        System.out.println(cadastroProdutos.produtoSet);
+
+        System.out.println(cadastroProdutos.exibirProdutosPorNome());
+
+        System.out.println(cadastroProdutos.exibirProdutosPorPreco());
+    }
