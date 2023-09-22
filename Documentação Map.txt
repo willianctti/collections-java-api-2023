@@ -1,0 +1,301 @@
+A interface Map é usada para mapear dados na forma de chaves e valores.
+O Map do Java é um objeto que mapeia chaves para valores.
+Um Map não pode conter chaves duplicadas: cada chave pode mapear no máximo um valor.
+A plataforma Java possui três implementações gerais de Map: HashMap, TreeMap e LinkedHashMap.
+As operações básicas do Map são: put (inserir ou atualizar), get (obter), 
+containsKey (verificar se contém uma chave), containsValue (verificar se contém um valor), size (obter o tamanho) e isEmpty (verificar se está vazio).
+
+
+HashTable é uma implementação antiga da interface Map no Java que é sincronizada e thread-safe, tornando-a adequada para uso em ambientes concorrentes. 
+Ela não permite chaves ou valores nulos e os elementos não são mantidos em uma ordem específica.
+LinkedHashMap, por outro lado, é uma implementação da interface Map que preserva a ordem de inserção dos elementos. Cada elemento possui referências ao 
+próximo e ao anterior, formando uma lista encadeada. Isso permite que os elementos sejam iterados na ordem em que foram inseridos.
+Além disso, o LinkedHashMap também permite chaves ou valores nulos.
+HashMap é uma implementação da interface Map que não mantém uma ordem específica dos elementos. Ele armazena os elementos internamente usando uma função 
+de hash para melhorar a eficiência das operações de pesquisa e acesso. O HashMap também permite chaves ou valores nulos.
+
+
+	
+
+
+
+
+								Operações Básicas com Map
+1. Agenda de Contatos
+Crie uma classe chamada "AgendaContatos" que utilize um Map para armazenar os contatos. Cada contato possui um nome como chave e um número de telefone como valor. Implemente os seguintes métodos:
+
+adicionarContato(String nome, Integer telefone): Adiciona um contato à agenda, associando o nome do contato ao número de telefone correspondente.
+removerContato(String nome): Remove um contato da agenda, dado o nome do contato.
+exibirContatos(): Exibe todos os contatos da agenda, mostrando o nome e o número de telefone de cada contato.
+pesquisarPorNome(String nome): Pesquisa um contato pelo nome e retorna o número de telefone correspondente.
+
+
+public class AgendaContatos {
+    //Atributo
+    private Map<String, Integer> agendaContatoMap;
+
+    public AgendaContatos() {
+        this.agendaContatoMap = new HashMap<>();
+    }
+
+    public void adicionarContato(String nome, Integer telefone) {				O .put também faz REPLACE
+        agendaContatoMap.put(nome, telefone);
+    }
+
+    public void removerContato(String nome) {
+        if (!agendaContatoMap.isEmpty()) {
+            agendaContatoMap.remove(nome);
+        }
+    }
+
+    public void exibirContatos() {
+        System.out.println(agendaContatoMap);
+    }
+
+    public Integer pesquisarPorNome(String nome) {
+        Integer numeroPorNome = null;
+        if (!agendaContatoMap.isEmpty()) {
+            numeroPorNome = agendaContatoMap.get(nome);
+        }
+        return numeroPorNome;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+								Pesquisa em Map
+1. Estoque de Produtos com Preço
+Crie uma classe chamada "EstoqueProdutos" que utilize um Map para armazenar os produtos, suas quantidades 
+em estoque e seus respectivos preços. Cada produto possui um código como chave e um objeto Produto como valor, contendo nome, quantidade e preço.
+Implemente os seguintes métodos:
+
+package map.Pesquisa;
+
+public class Produto {
+    //Atributos
+    private String nome;
+    private double preco;
+    private int quantidade;
+
+    public Produto(String nome, double preco, int quantidade) {
+        this.nome = nome;
+        this.preco = preco;
+        this.quantidade = quantidade;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public double getPreco() {
+        return preco;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    @Override
+    public String toString() {
+        return "Produto{" +
+                "nome='" + nome + '\'' +
+                ", preco=" + preco +
+                ", quantidade=" + quantidade +
+                '}';
+    }
+}
+
+
+
+
+
+
+
+public class EstoqueProdutos {
+    private Map<Long, Produto> estoqueProdutosMap;
+
+    public EstoqueProdutos() {
+        this.estoqueProdutosMap = new HashMap<>();
+    }
+
+    public void adicionarProduto(long cod, String nome, int quantidade, double preco) {
+        estoqueProdutosMap.put(cod, new Produto(nome, preco, quantidade));
+    }
+
+    public void exibirProdutos() {
+        System.out.println(estoqueProdutosMap);
+    }
+
+    public double calcularValorTotalEstoque() {
+        double valorTotalEstoque = 0d;
+        if (!estoqueProdutosMap.isEmpty()) {
+            for (Produto p : estoqueProdutosMap.values()) {
+                valorTotalEstoque += p.getQuantidade() * p.getPreco();
+            }
+        }
+        return valorTotalEstoque;
+    }
+
+
+    public Produto obterProdutoMaisCaro() {
+        Produto produtoMaisCaro = null;
+        double maiorPreco = Double.MIN_VALUE;
+        if (!estoqueProdutosMap.isEmpty()) {
+            for (Produto p : estoqueProdutosMap.values()) {
+                if(p.getPreco() > maiorPreco) {
+                    produtoMaisCaro = p;
+                }
+            }
+        }
+        return produtoMaisCaro;
+    }
+
+    public static void main(String[] args) {
+        EstoqueProdutos estoqueProdutos = new EstoqueProdutos();
+
+        estoqueProdutos.exibirProdutos();
+
+       estoqueProdutos.adicionarProduto(1L, "Lapis", 10, 1.20);
+        estoqueProdutos.adicionarProduto(2L, "Caneta", 20, 2.50);
+        estoqueProdutos.adicionarProduto(3L, "Borracha", 5, 3.00);
+
+        estoqueProdutos.exibirProdutos();
+
+         System.out.println("Valor total do estoque:  R$" + estoqueProdutos.calcularValorTotalEstoque());
+        System.out.println("Oriduto mais caro: " + estoqueProdutos.obterProdutoMaisCaro());
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+										Ordenação nos Map
+1. Agenda de Eventos
+Crie uma classe chamada "AgendaEventos" que utilize um `Map` para armazenar as datas e seus respectivos Eventos. Cada evento é representado por 
+um objeto da classe "Evento", que possui atributos como nome do evento e o nome da atração. Implemente os seguintes métodos:
+
+adicionarEvento(LocalDate data, String nome, String atracao): Adiciona um evento à agenda.
+exibirAgenda(): Exibe a agenda de eventos em ordem crescente de data.
+obterProximoEvento(): Retorna o próximo evento que ocorrerá.
+
+package map.Ordenacao;
+
+public class Evento {
+    //Atributos
+    private String nomeEvento;
+    private String nomeAtracao;
+
+    public Evento(String nomeEvento, String nomeAtracao) {
+        this.nomeEvento = nomeEvento;
+        this.nomeAtracao = nomeAtracao;
+    }
+
+    public String getNomeEvento() {
+        return nomeEvento;
+    }
+
+    public String getNomeAtracao() {
+        return nomeAtracao;
+    }
+
+    @Override
+    public String toString() {
+        return "Evento{" +
+                "nomeEvento='" + nomeEvento + '\'' +
+                ", nomeAtracao='" + nomeAtracao + '\'' +
+                '}';
+    }
+}
+
+
+
+
+
+package map.Ordenacao;
+
+import map.OperacoesBasicas.AgendaContatos;
+
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.HashMap;
+import java.util.*;
+
+public class AgendaEventos {
+    //atributo
+
+    private Map<LocalDate, Evento> eventosMap;
+
+    public AgendaEventos() {
+        this.eventosMap = new HashMap<>();
+    }
+
+    public void adicionarEvento(LocalDate data, String nomeEvento, String nomeAtracao) {
+        Evento evento = new Evento(nomeEvento, nomeAtracao);
+        eventosMap.put(data, evento);
+    }
+
+    public void exibirAgenda() {
+        Map<LocalDate, Evento> eventosTreeMap = new TreeMap<>(eventosMap);
+        System.out.println(eventosTreeMap);
+    }
+
+
+
+    public void obterProximoEvento() {
+       /* Set<LocalDate> dateSet = eventosMap.keySet();
+        Collection<Evento> values = eventosMap.values(); */
+
+        LocalDate dataAtual = LocalDate.now();
+        LocalDate proximaData = null;
+        Evento proximoEvento = null;
+        Map<LocalDate, Evento> eventosTreeMap = new TreeMap<>(eventosMap);
+        for(Map.Entry<LocalDate, Evento> entry : eventosMap.entrySet()) {
+            if(entry.getKey().isEqual(dataAtual) || entry.getKey().isAfter(dataAtual)) {
+                proximaData = entry.getKey();
+                proximoEvento = entry.getValue();
+                System.out.println("O próximo evento: " + entry.getValue() + " acontecerá na data " + entry.getKey());
+                break;
+            }
+        }
+    }
+
+
+
+    public static void main(String[] args) {
+        AgendaEventos agendaEventos = new AgendaEventos();
+        agendaEventos.adicionarEvento(LocalDate.of(2023, Month.DECEMBER, 14),"Evento 1", "Atracao 1");
+        agendaEventos.adicionarEvento(LocalDate.of(2023, 8, 1),"Evento 2", "Atracao 2");
+
+        agendaEventos.exibirAgenda();
+    }
+
+}
